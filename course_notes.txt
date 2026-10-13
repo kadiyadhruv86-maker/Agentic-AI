@@ -1,0 +1,25 @@
+# Sample Course Notes: Retrieval-Augmented Generation and Text Processing
+
+## What is a text splitter?
+A text splitter divides a long document into smaller pieces called chunks. Language models and embedding models work more reliably when the input is a manageable size. A good splitter tries to keep related sentences together instead of cutting a concept in the middle.
+
+## RecursiveCharacterTextSplitter
+RecursiveCharacterTextSplitter attempts to split text using a list of separators, often paragraphs, newlines, spaces, and finally characters. The chunk_size controls the approximate maximum chunk length. The chunk_overlap repeats some text between adjacent chunks so that a definition or explanation crossing a boundary is less likely to lose context. For example, a chunk size of 850 characters and overlap of 160 characters can be a reasonable starting point, but should be tested on the actual course material.
+
+## What is Retrieval-Augmented Generation (RAG)?
+Retrieval-Augmented Generation, or RAG, combines information retrieval with text generation. First, course documents are loaded and divided into chunks. An embedding model converts each chunk into a vector representation. The vectors are stored in a vector database such as Chroma. When a student asks a question, the question is embedded and the retriever finds chunks that are semantically similar. Those chunks are supplied to the language model as context, and the model writes an answer grounded in that context.
+
+## Why use RAG for study help?
+RAG can make answers more relevant to a specific syllabus or textbook than relying only on the model's general training. It can also help identify which source material supports an answer. Retrieval quality matters: chunks should preserve meaning, and the retriever should be tested with both narrow factual questions and broad conceptual questions. RAG does not guarantee correctness; students should check important answers against their official course material.
+
+## Embeddings and vector stores
+An embedding is a numeric representation of text that helps a system compare meaning. A vector store saves embeddings and associated text chunks. Chroma is a vector database that can persist its data on disk, so the index can be reused after the application restarts.
+
+## Retriever
+A retriever takes a query and returns the most relevant document chunks from the vector store. Similarity retrieval is a common baseline. Testing should include exact questions, paraphrased questions, and broad questions that require connecting multiple ideas.
+
+## Tool-calling agents
+A tool-calling agent decides when to use available tools. A course retrieval tool should only fetch provided syllabus or notes. An opportunity-search tool should query an external job or internship source. Clear tool descriptions help the agent choose the correct tool. The agent should not confuse explaining a concept with finding an opportunity.
+
+## Student opportunity matching
+A simple opportunity search can use a topic keyword such as Python, networking, web development, or data analysis. Search results are candidates, not a guarantee of fit. The student should check experience requirements, location, eligibility, deadlines, and whether the listing is still active.
